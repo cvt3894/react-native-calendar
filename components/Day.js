@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import styles from './styles';
+import PieChart from 'react-native-pie-chart'
 
 export default class Day extends Component {
   static defaultProps = {
@@ -83,13 +84,25 @@ export default class Day extends Component {
             <Text style={[styles.day, customStyle.day]} />
           </View>
         </TouchableWithoutFeedback>
-      )
-    : (
+      ) : (
       <TouchableOpacity onPress={this.props.onPress}>
-        <View style={[styles.dayButton, customStyle.dayButton, isWeekend ? styles.weekendDayButton : null]}>
-          <View style={this.dayCircleStyle(isWeekend, isSelected, isToday, event)}>
-            <Text style={this.dayTextStyle(isWeekend, isSelected, isToday, event)}>{caption}</Text>
-          </View>
+        <View style={[styles.dayButton, customStyle.dayButton]}>
+          {
+            event && event.hasEventCircles ? (
+              <View style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }}>
+                <PieChart
+                  chart_wh={30}
+                  series={event.hasEventCircles.backgroundColors.map(color => {return 1})}
+                  sliceColor={event.hasEventCircles.backgroundColors}
+                />
+                <Text style={[this.dayTextStyle(isWeekend, isSelected, isToday, event), { position: 'absolute' }]}>{caption}</Text>
+              </View>
+            ) : (
+              <View style={this.dayCircleStyle(isWeekend, isSelected, isToday, event)}>
+                <Text style={this.dayTextStyle(isWeekend, isSelected, isToday, event)}>{caption}</Text>
+              </View>
+            )
+          }
           {showEventIndicators &&
             <View style={[
               styles.eventIndicatorFiller,
