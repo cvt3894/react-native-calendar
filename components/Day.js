@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 
 import styles from './styles'
-import PieChart from 'react-native-pie-chart'
+import Pie from 'react-native-pie'
 
 export default class Day extends Component {
   static defaultProps = {
@@ -90,10 +90,11 @@ export default class Day extends Component {
             {
             event && event.hasEventCircles ? (
               <View style={{ width: 28, height: 28, justifyContent: 'center', alignItems: 'center' }}>
-                <PieChart
-                  chart_wh={28}
-                  series={event.hasEventCircles.backgroundColors.map(color => { return 1 })}
-                  sliceColor={event.hasEventCircles.backgroundColors}
+                <Pie
+                  radius={14}
+                  innerRadius={12}
+                  series={event.hasEventCircles.backgroundColors.map(color => { return 100 / event.hasEventCircles.backgroundColors.length })}
+                  colors={event.hasEventCircles.backgroundColors}
                 />
                 <Text style={[this.dayTextStyle(isWeekend, isSelected, isToday, event), { position: 'absolute' }]}>{caption}</Text>
               </View>
